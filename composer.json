@@ -1,0 +1,31 @@
+{
+    "name": "kapital/filament-form-components",
+    "description": "Enhanced Filament form components with extended functionality for multiple select, disabled options, and more",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kapital Online",
+            "email": "dev@ko.com.tr"
+        }
+    ],
+    "require": {
+        "php": "^8.0.2",
+        "filament/forms": "^2.0",
+        "illuminate/support": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kapital\\Filament\\FormComponents\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kapital\\Filament\\FormComponents\\FilamentFormComponentsServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
