@@ -1,5 +1,5 @@
 {
-    "name": "kapital/filament-form-components",
+    "name": "kapital-online/filament-form-components",
     "description": "Enhanced Filament form components with extended functionality for multiple select, disabled options, and more",
     "type": "library",
     "license": "MIT",
