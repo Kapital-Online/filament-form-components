@@ -165,6 +165,70 @@ Select::make('filters')
 ->deselectAllOption(fn () => auth()->user()->canClearAll())
 ```
 
+#### 6. Master-Detail Table (Filament v2)
+
+Bu paket Filament v2 resource tabloları için master-detail altyapısı da içerir.
+
+Öne çıkanlar:
+- Satır bazlı aç/kapa detayı (ikonlu)
+- Detail içeriğini sadece açılınca render etme (lazy)
+- Mevcut Filament table zinciriyle uyumlu kullanım
+- Relation/query/livewire tabanlı detail tanımına uygun fluent API
+
+##### Gerekli Importlar
+
+```php
+use Filament\Resources\Table;
+use Kapital\Filament\FormComponents\Resources\Table as MasterDetailResourceTable;
+```
+
+##### Resource Kullanımı
+
+```php
+public static function table(Table $table): Table
+{
+    if ($table instanceof MasterDetailResourceTable) {
+        $table->masterDetailLivewire(
+            component: 'overdue-payment-plan-report-transactions-table',
+            parameters: fn (OverduePaymentPlanReport $record): array => [
+                'userId' => $record->user_id,
+            ],
+            key: fn (OverduePaymentPlanReport $record): string => 'overdue-payment-plan-report-' . $record->getKey(),
+        );
+    }
+
+    return $table
+        ->columns([
+            // Filament columns...
+        ]);
+}
+```
+
+##### List Page Kullanımı
+
+İlgili resource list page sınıfında trait eklenmelidir:
+
+```php
+use Kapital\Filament\FormComponents\Tables\Concerns\InteractsWithMasterDetailTable;
+
+class ListOverduePaymentPlanReports extends ListRecords
+{
+    use InteractsWithMasterDetailTable;
+}
+```
+
+##### API Özeti
+
+- `masterDetailLivewire(component, parameters, key, expandable, expandIcon, collapseIcon, wrapperClass)`
+- `masterDetailRelation(relation)`
+- `masterDetailQuery(closure)`
+
+Not: Filament v2 `Resource::table()` method imzası `Filament\Resources\Table` beklediği için method parametresi Filament tipiyle kalmalıdır. Paketin master-detail özellikleri runtime’da `instanceof MasterDetailResourceTable` ile etkinleştirilir.
+
+##### Bilinen Kısıt / Öneri
+
+Nested modal içinde tekrar modal açan table action akışları Alpine/Livewire tarafında sorun çıkarabilir. Bu tip senaryolarda detail içeriğini aynı sayfada inline açmak veya action akışını modal dışına taşımak daha stabil sonuç verir.
+
 ### Gerçek Dünya Örneği
 
 ```php
@@ -428,6 +492,70 @@ Features:
 ```php
 ->deselectAllOption(fn () => auth()->user()->canClearAll())
 ```
+
+#### 6. Master-Detail Table (Filament v2)
+
+This package also includes a master-detail infrastructure for Filament v2 resource tables.
+
+Highlights:
+- Row-level expand/collapse detail with icon
+- Lazy detail rendering (content is mounted only when expanded)
+- Compatible with standard Filament table chaining
+- Fluent API suitable for relation/query/livewire detail definitions
+
+##### Required Imports
+
+```php
+use Filament\Resources\Table;
+use Kapital\Filament\FormComponents\Resources\Table as MasterDetailResourceTable;
+```
+
+##### Resource Usage
+
+```php
+public static function table(Table $table): Table
+{
+    if ($table instanceof MasterDetailResourceTable) {
+        $table->masterDetailLivewire(
+            component: 'overdue-payment-plan-report-transactions-table',
+            parameters: fn (OverduePaymentPlanReport $record): array => [
+                'userId' => $record->user_id,
+            ],
+            key: fn (OverduePaymentPlanReport $record): string => 'overdue-payment-plan-report-' . $record->getKey(),
+        );
+    }
+
+    return $table
+        ->columns([
+            // Filament columns...
+        ]);
+}
+```
+
+##### List Page Usage
+
+Add the trait to your resource list page class:
+
+```php
+use Kapital\Filament\FormComponents\Tables\Concerns\InteractsWithMasterDetailTable;
+
+class ListOverduePaymentPlanReports extends ListRecords
+{
+    use InteractsWithMasterDetailTable;
+}
+```
+
+##### API Summary
+
+- `masterDetailLivewire(component, parameters, key, expandable, expandIcon, collapseIcon, wrapperClass)`
+- `masterDetailRelation(relation)`
+- `masterDetailQuery(closure)`
+
+Note: Filament v2 `Resource::table()` signature must keep `Filament\Resources\Table` as the method argument. Package master-detail features are enabled at runtime via `instanceof MasterDetailResourceTable`.
+
+##### Known Limitation / Recommendation
+
+Nested table actions that open another modal inside an existing modal may cause Alpine/Livewire issues. In such cases, prefer inline detail rendering on the same page or move the action flow outside nested modals.
 
 ### Real-World Example
 

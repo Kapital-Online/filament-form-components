@@ -23,7 +23,6 @@ class FilamentFormComponentsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // This package doesn't need to publish anything
-        // Components are used directly via their namespaced class names
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'filament-form-components');
     }
 }
