@@ -355,6 +355,21 @@
                 @endif
             @endforeach
         </x-tables::table>
+
+        @if ($records instanceof \Illuminate\Contracts\Pagination\Paginator &&
+            (! $records instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator) || $records->total()))
+            <div
+                @class([
+                    'filament-tables-pagination-container border-t p-2',
+                    'dark:border-gray-700' => config('tables.dark_mode'),
+                ])
+            >
+                <x-tables::pagination
+                    :paginator="$records"
+                    :records-per-page-select-options="$getRecordsPerPageSelectOptions()"
+                />
+            </div>
+        @endif
     </x-tables::container>
 
     <form wire:submit.prevent="callMountedTableAction">
