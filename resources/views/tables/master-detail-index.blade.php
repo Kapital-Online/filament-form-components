@@ -357,7 +357,7 @@
         </x-tables::table>
 
         @if ($records instanceof \Illuminate\Contracts\Pagination\Paginator &&
-            (! $records instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator) || $records->total()))
+            (! $records instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator) || $records->total())
             <div
                 @class([
                     'filament-tables-pagination-container border-t p-2',
