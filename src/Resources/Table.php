@@ -3,7 +3,7 @@
 namespace Kapital\Filament\FormComponents\Resources;
 
 use Closure;
-use Filament\Resources\Table as BaseTable;
+use Filament\Tables\Table as BaseTable;
 use Kapital\Filament\FormComponents\Tables\MasterDetailConfig;
 
 class Table extends BaseTable
