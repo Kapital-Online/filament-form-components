@@ -7,10 +7,9 @@
     $actionsPosition = $getActionsPosition();
     $actionsColumnLabel = $getActionsColumnLabel();
     $columns = $getColumns();
-    $filterIndicators = collect($getFilters())
-        ->mapWithKeys(fn (\Filament\Tables\Filters\BaseFilter $filter): array => [$filter->getName() => $filter->getIndicators()])
-        ->filter(fn (array $indicators): bool => count($indicators))
-        ->all();
+    // Revizyon: Filament 3 Indicator::getColor() için düz Indicator listesi (eski nested map hata veriyordu)
+    $filterIndicators = $getFilterIndicators();
+
     $header = $getHeader();
     $headerActions = $getHeaderActions();
     $heading = $getHeading();
