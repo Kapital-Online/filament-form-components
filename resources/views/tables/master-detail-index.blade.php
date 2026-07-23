@@ -10,10 +10,10 @@
     $actionsAlignment = $getActionsAlignment();
     $actionsPosition = $getActionsPosition();
     $actionsColumnLabel = $getActionsColumnLabel();
+    $activeFiltersCount = $getActiveFiltersCount();
     $columns = $getColumns();
     // Revizyon: Filament 3 Indicator::getColor() için düz Indicator listesi (eski nested map hata veriyordu)
     $filterIndicators = $getFilterIndicators();
-
     $header = $getHeader();
     $headerActions = array_filter(
         $getHeaderActions(),
