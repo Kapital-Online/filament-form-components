@@ -165,9 +165,9 @@ Select::make('filters')
 ->deselectAllOption(fn () => auth()->user()->canClearAll())
 ```
 
-#### 6. Master-Detail Table (Filament v2)
+#### 6. Master-Detail Table (Filament v3)
 
-Bu paket Filament v2 resource tabloları için master-detail altyapısı da içerir.
+Bu paket Filament v3 resource tabloları için master-detail altyapısı da içerir.
 
 Öne çıkanlar:
 - Satır bazlı aç/kapa detayı (ikonlu)
@@ -178,7 +178,7 @@ Bu paket Filament v2 resource tabloları için master-detail altyapısı da içe
 ##### Gerekli Importlar
 
 ```php
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Kapital\Filament\FormComponents\Resources\Table as MasterDetailResourceTable;
 ```
 
@@ -223,7 +223,7 @@ class ListOverduePaymentPlanReports extends ListRecords
 - `masterDetailRelation(relation)`
 - `masterDetailQuery(closure)`
 
-Not: Filament v2 `Resource::table()` method imzası `Filament\Resources\Table` beklediği için method parametresi Filament tipiyle kalmalıdır. Paketin master-detail özellikleri runtime’da `instanceof MasterDetailResourceTable` ile etkinleştirilir.
+Not: Filament v3 `Resource::table()` method imzası `Filament\Tables\Table` beklediği için method parametresi Filament tipiyle kalmalıdır. Paketin master-detail özellikleri runtime’da `instanceof MasterDetailResourceTable` ile etkinleştirilir.
 
 ##### Bilinen Kısıt / Öneri
 
@@ -299,7 +299,7 @@ Frontend özellikleri (Choices.js maxItemCount gibi) kullanıcı dostu geri bild
 ### Uyumluluk
 
 - **Laravel**: 9.x, 10.x
-- **Filament**: v2.x
+- **Filament**: v3.x
 - **PHP**: 8.0.2+
 
 ### Sorun Giderme
@@ -493,9 +493,9 @@ Features:
 ->deselectAllOption(fn () => auth()->user()->canClearAll())
 ```
 
-#### 6. Master-Detail Table (Filament v2)
+#### 6. Master-Detail Table (Filament v3)
 
-This package also includes a master-detail infrastructure for Filament v2 resource tables.
+This package also includes a master-detail infrastructure for Filament v3 resource tables.
 
 Highlights:
 - Row-level expand/collapse detail with icon
@@ -506,7 +506,7 @@ Highlights:
 ##### Required Imports
 
 ```php
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Kapital\Filament\FormComponents\Resources\Table as MasterDetailResourceTable;
 ```
 
@@ -551,7 +551,7 @@ class ListOverduePaymentPlanReports extends ListRecords
 - `masterDetailRelation(relation)`
 - `masterDetailQuery(closure)`
 
-Note: Filament v2 `Resource::table()` signature must keep `Filament\Resources\Table` as the method argument. Package master-detail features are enabled at runtime via `instanceof MasterDetailResourceTable`.
+Note: Filament v3 `Resource::table()` signature must keep `Filament\Tables\Table` as the method argument. Package master-detail features are enabled at runtime via `instanceof MasterDetailResourceTable`.
 
 ##### Known Limitation / Recommendation
 
@@ -627,7 +627,7 @@ Frontend features (like Choices.js maxItemCount) provide user-friendly feedback 
 ### Compatibility
 
 - **Laravel**: 9.x, 10.x
-- **Filament**: v2.x
+- **Filament**: v3.x
 - **PHP**: 8.0.2+
 
 ### Troubleshooting

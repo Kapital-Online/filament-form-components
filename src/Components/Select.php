@@ -144,7 +144,7 @@ class Select extends BaseSelect
             $this->hintAction(
                 Action::make('deselectAll')
                     ->label('Tümünü Temizle')
-                    ->icon('heroicon-o-x')
+                    ->icon('heroicon-o-x-mark')
                     ->color('danger')
                     ->action(function () {
                         $currentState = $this->getState() ?? [];

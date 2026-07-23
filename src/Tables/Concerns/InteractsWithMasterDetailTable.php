@@ -5,7 +5,6 @@ namespace Kapital\Filament\FormComponents\Tables\Concerns;
 use Illuminate\Database\Eloquent\Model;
 use Kapital\Filament\FormComponents\Resources\Table as ResourceTable;
 use Kapital\Filament\FormComponents\Tables\MasterDetailConfig;
-use Kapital\Filament\FormComponents\Tables\MasterDetailTable;
 
 trait InteractsWithMasterDetailTable
 {
@@ -109,20 +108,21 @@ trait InteractsWithMasterDetailTable
 
     public function getMasterDetailColumnCount(): int
     {
-        $columnCount = method_exists($this, 'getCachedTableColumns')
-            ? count($this->getCachedTableColumns())
-            : 0;
+        $table = $this->getTable();
+        $isReordering = $this->isTableReordering();
 
-        if (method_exists($this, 'getCachedTableActions') && count($this->getCachedTableActions()) > 0) {
+        $columnCount = count($table->getVisibleColumns());
+
+        if (count($table->getActions()) > 0 && ! $isReordering) {
             $columnCount++;
         }
 
-        $isSelectionEnabled = method_exists($this, 'isTableSelectionEnabled') ? $this->isTableSelectionEnabled() : false;
-        $isReordering = method_exists($this, 'isTableReordering') ? $this->isTableReordering() : false;
-
-        if ($isSelectionEnabled || $isReordering) {
+        if ($table->isSelectionEnabled() || $isReordering) {
             $columnCount++;
         }
+
+        // Master-detail toggle column (this method is only ever used when it is enabled).
+        $columnCount++;
 
         return max($columnCount, 1);
     }
@@ -139,7 +139,7 @@ trait InteractsWithMasterDetailTable
             return null;
         }
 
-        $resourceTable = $resourceClass::table(ResourceTable::make());
+        $resourceTable = $resourceClass::table(ResourceTable::make($this));
 
         if (! $resourceTable instanceof ResourceTable) {
             return null;
@@ -148,11 +148,13 @@ trait InteractsWithMasterDetailTable
         return $resourceTable->getMasterDetailConfig();
     }
 
-    protected function getTable(): \Filament\Tables\Table
+    protected function makeTable(): \Filament\Tables\Table
     {
-        $table = MasterDetailTable::make($this);
+        $table = parent::makeTable();
 
-        $table->masterDetailConfig($this->resolveMasterDetailConfig());
+        (function () {
+            $this->view = 'filament-form-components::tables.master-detail-index';
+        })->call($table);
 
         return $table;
     }

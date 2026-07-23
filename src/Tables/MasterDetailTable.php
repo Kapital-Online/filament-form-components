@@ -13,7 +13,10 @@ class MasterDetailTable extends BaseTable
 
     public static function make(HasTable $livewire): static
     {
-        return app(static::class, ['livewire' => $livewire]);
+        $static = app(static::class, ['livewire' => $livewire]);
+        $static->configure();
+
+        return $static;
     }
 
     public function masterDetailConfig(?MasterDetailConfig $config): static
