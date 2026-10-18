@@ -1,0 +1,25 @@
+name: Laravel uyumluluğu
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        laravel: ['10.*', '11.*']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: intl, mbstring, pdo_sqlite, sqlite3, zip, gd
+          coverage: none
+          tools: composer:v2
+      # Bu matris destek süresi bitmiş Laravel sürümlerinin geriye uyumluluğunu test eder.
+      # İstisna yalnız çözümlemeye aittir; Composer güvenlik bulgularını raporlamaya devam eder.
+      - name: Hedef Laravel sürümünü çözümle
+        run: composer update --with "laravel/framework:${{ matrix.laravel }}" --prefer-dist --no-interaction --no-progress --no-blocking
+      - name: Uyumluluk testlerini çalıştır
+        run: composer test
