@@ -22,27 +22,45 @@ Bu paket bu sorunu çözer ve ek özellikler ekler.
 
 Bu paket Filament'in Select componentini extend eder ve `transformOptionsForJs()` metodunu override ederek `disabled` özelliğini ekler. Choices.js zaten disabled seçenekleri desteklediği için ek JavaScript gerekmez.
 
+### Sürüm seçimi ve uyumluluk
+
+Filament ve Laravel sürümünüze uygun satırdaki komutu kullanın. Composer paket adı **`kapital-online/filament-form-components`** olmalıdır.
+
+| Filament | Laravel | En düşük PHP | Paket sürümü | Composer komutu |
+| --- | --- | --- | --- | --- |
+| 2.x | 9.x | 8.0.2 | `^1.2` | `composer require kapital-online/filament-form-components:"^1.2"` |
+| 2.x | 10.x | 8.1 | `^1.2` | `composer require kapital-online/filament-form-components:"^1.2"` |
+| 3.x | 10.x | 8.1 | `^2.1` | `composer require kapital-online/filament-form-components:"^2.1"` |
+| 3.x | 11.x | 8.2 | `^2.1` | `composer require kapital-online/filament-form-components:"^2.1"` |
+| 4.x | 11.28+ (11.x) | 8.3 | `^3.0` | `composer require kapital-online/filament-form-components:"^3.0"` |
+
+- `main`, Filament 3 için **2.x** hattıdır. Laravel 11 desteği **v2.1.0** ile gelir; bu nedenle Filament 3 projelerinde `^2.1` seçilir.
+- `3.x` bakım dalı, Filament 4 için **v3.0.0 ve sonrası** sürümleri içerir. Bu hat `illuminate/support:^11.28` ve PHP `^8.3` ister; Laravel 12 ve üzerini kapsamaz.
+- Filament 2 projeleri eski **v1.2.0 / `^1.2`** hattını kullanır. Eski satırlar etiketin bağımlılıklarına dayanır; son doğrulama Filament 3 + Laravel 10/11 ve Filament 4 + Laravel 11 üzerinde yapılmıştır.
+
+PHP alt sınırları paket ve framework gereksinimlerini birlikte gösterir; [Filament 3 gereksinimleri](https://filamentphp.com/docs/3.x/panels/installation) ve [Laravel sürüm tablosu](https://laravel.com/docs/11.x/releases#support-policy) de geçerlidir.
+
 ### Kurulum
 
-#### 1. composer.json'a Ekleyin
-
-Bu yerel bir paket olduğu için root `composer.json` dosyasına ekleyin:
-
-```json
-{
-    "require": {
-        "kapital/filament-form-components": "@dev"
-    }
-}
-```
-
-#### 2. Composer'ı Güncelleyin
+Özel depoya erişebilen GitHub kimliği veya SSH anahtarınızla, VCS kaydı henüz yoksa ekleyin:
 
 ```bash
-composer update
+composer config repositories.filament-form-components vcs git@github.com:Kapital-Online/filament-form-components.git
 ```
 
-Paket Laravel'in package discovery mekanizması ile otomatik olarak yüklenecektir.
+Ardından tablodaki uygun `composer require` komutlarından **yalnız birini** çalıştırın. Filament 3 + Laravel 10/11 örneği:
+
+```bash
+composer require kapital-online/filament-form-components:"^2.1"
+```
+
+Filament 4 + Laravel 11.28+ / PHP 8.3 için bunun yerine:
+
+```bash
+composer require kapital-online/filament-form-components:"^3.0"
+```
+
+`@dev` veya `dev-main` yerine yayımlanan sürüm aralığını kullanın. `^2.1` ve `^3.0` kendi ana sürüm hatlarında kalır; Filament yükseltmesi uygulama ve diğer eklentilerle birlikte yapılmalıdır. Paket Laravel'in package discovery mekanizması ile otomatik olarak yüklenir.
 
 ### Kullanım
 
@@ -298,9 +316,7 @@ Frontend özellikleri (Choices.js maxItemCount gibi) kullanıcı dostu geri bild
 
 ### Uyumluluk
 
-- **Laravel**: 9.x, 10.x
-- **Filament**: v3.x
-- **PHP**: 8.0.2+
+Paket sürümü, Laravel ve PHP gereksinimleri için [sürüm seçimi tablosuna](#sürüm-seçimi-ve-uyumluluk) bakın. `main` dalındaki kullanım örnekleri Filament 3 içindir; Filament 4 sürümü `3.x` dalında tutulur.
 
 ### Sorun Giderme
 
@@ -318,10 +334,11 @@ use Filament\Forms\Components\Select;
 
 #### Composer paketi bulamıyor
 
-Paketin doğru konumda olduğundan emin olun:
-- Yol: `lib/filament-form-components/`
-- Root `composer.json` dosyasında paket `require` bölümünde var
-- `composer update` veya `composer dump-autoload` çalıştırın
+Kurulum tanımlarını kontrol edin:
+
+- Paket adı `kapital-online/filament-form-components` olmalı.
+- Uygulamanın `composer.json` dosyasında VCS deposu ve tablodaki sürüm aralığı bulunmalı.
+- GitHub kimliğiniz veya SSH anahtarınız depoyu okuyabilmeli; etiketli kurulum için `lib/` altında yerel paket kopyası gerekmez.
 
 #### Max/min validasyon çalışmıyor
 
@@ -350,27 +367,45 @@ This package fixes this issue and adds additional features for enhanced select c
 
 This package extends Filament's Select component and overrides the `transformOptionsForJs()` method to include the `disabled` property. Choices.js already supports disabled options natively, so no additional JavaScript is required.
 
+### Version selection and compatibility
+
+Choose the package line that matches your Filament and Laravel versions. The Composer package name is **`kapital-online/filament-form-components`**.
+
+| Filament | Laravel | Minimum PHP | Package version | Composer command |
+| --- | --- | --- | --- | --- |
+| 2.x | 9.x | 8.0.2 | `^1.2` | `composer require kapital-online/filament-form-components:"^1.2"` |
+| 2.x | 10.x | 8.1 | `^1.2` | `composer require kapital-online/filament-form-components:"^1.2"` |
+| 3.x | 10.x | 8.1 | `^2.1` | `composer require kapital-online/filament-form-components:"^2.1"` |
+| 3.x | 11.x | 8.2 | `^2.1` | `composer require kapital-online/filament-form-components:"^2.1"` |
+| 4.x | 11.28+ (11.x) | 8.3 | `^3.0` | `composer require kapital-online/filament-form-components:"^3.0"` |
+
+- `main` contains the Filament 3 **2.x** line. Laravel 11 support starts at **v2.1.0**, so use `^2.1` for Filament 3 projects.
+- The `3.x` maintenance branch contains **v3.0.0 and later** for Filament 4. It requires `illuminate/support:^11.28` and PHP `^8.3`; Laravel 12 and later are outside this range.
+- Filament 2 projects use the legacy **v1.2.0 / `^1.2`** line. Legacy rows describe tag dependency constraints; recent verification covers Filament 3 with Laravel 10/11 and Filament 4 with Laravel 11.
+
+The PHP column combines package and framework minimum requirements. See the [Filament 3 requirements](https://filamentphp.com/docs/3.x/panels/installation) and [Laravel version table](https://laravel.com/docs/11.x/releases#support-policy).
+
 ### Installation
 
-#### 1. Add to composer.json
-
-Since this is a local package, add it to your root `composer.json`:
-
-```json
-{
-    "require": {
-        "kapital/filament-form-components": "@dev"
-    }
-}
-```
-
-#### 2. Update Composer
+Use a GitHub identity or SSH key with read access to the repository. Add the VCS repository to your application if it is not already configured:
 
 ```bash
-composer update
+composer config repositories.filament-form-components vcs git@github.com:Kapital-Online/filament-form-components.git
 ```
 
-The package will be auto-discovered via Laravel's package discovery mechanism.
+Run **one** matching `composer require` command from the table. For Filament 3 with Laravel 10/11:
+
+```bash
+composer require kapital-online/filament-form-components:"^2.1"
+```
+
+For Filament 4 with Laravel 11.28+ / PHP 8.3, use this instead:
+
+```bash
+composer require kapital-online/filament-form-components:"^3.0"
+```
+
+Use a released version constraint instead of `@dev` or `dev-main`. `^2.1` stays on 2.x and `^3.0` stays on 3.x; upgrade Filament together with the application and its other plugins. Laravel discovers the package automatically.
 
 ### Usage
 
@@ -626,9 +661,7 @@ Frontend features (like Choices.js maxItemCount) provide user-friendly feedback 
 
 ### Compatibility
 
-- **Laravel**: 9.x, 10.x
-- **Filament**: v3.x
-- **PHP**: 8.0.2+
+See the [version selection table](#version-selection-and-compatibility) for package, Laravel and PHP requirements. Usage examples on `main` target Filament 3; the Filament 4 release line lives on `3.x`.
 
 ### Troubleshooting
 
@@ -646,10 +679,11 @@ use Filament\Forms\Components\Select;
 
 #### Composer can't find the package
 
-Ensure the package is in the correct location:
-- Path: `lib/filament-form-components/`
-- Root `composer.json` has the package in `require` section
-- Run `composer update` or `composer dump-autoload`
+Check the installation configuration:
+
+- Use the package name `kapital-online/filament-form-components`.
+- The application's `composer.json` must contain the VCS repository and a matching version constraint from the table.
+- Your GitHub identity or SSH key must have read access; tagged installations do not require a local package copy under `lib/`.
 
 #### Max/min validation not working
 
