@@ -10,10 +10,10 @@
         }
     ],
     "require": {
-        "php": "^8.0.2",
-        "filament/forms": "^3.0",
-        "filament/tables": "^3.0",
-        "illuminate/support": "^9.0|^10.0|^11.0"
+        "php": "^8.3",
+        "filament/forms": "^4.0",
+        "filament/tables": "^4.0",
+        "illuminate/support": "^11.28"
     },
     "autoload": {
         "psr-4": {
@@ -25,12 +25,15 @@
             "providers": [
                 "Kapital\\Filament\\FormComponents\\FilamentFormComponentsServiceProvider"
             ]
+        },
+        "branch-alias": {
+            "dev-codex/filament-4": "3.x-dev"
         }
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require-dev": {
-        "orchestra/testbench": "^8.0|^9.0",
+        "orchestra/testbench": "^9.0",
         "phpunit/phpunit": "^10.5"
     },
     "scripts": {
@@ -39,6 +42,11 @@
     "autoload-dev": {
         "psr-4": {
             "Kapital\\Filament\\FormComponents\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.3.33"
         }
     }
 }
