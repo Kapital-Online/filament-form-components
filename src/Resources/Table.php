@@ -12,12 +12,13 @@ class Table extends BaseTable
 
     public function masterDetailLivewire(
         string $component,
-        array | Closure $parameters = [],
-        string | Closure | null $key = null,
-        bool | Closure $expandable = true,
-        string | Closure $expandIcon = 'heroicon-o-chevron-right',
-        string | Closure $collapseIcon = 'heroicon-o-chevron-down',
-        string | Closure | null $wrapperClass = null
+        array|Closure $parameters = [],
+        string|Closure|null $key = null,
+        bool|Closure $expandable = true,
+        string|Closure $expandIcon = 'heroicon-o-chevron-right',
+        string|Closure $collapseIcon = 'heroicon-o-chevron-down',
+        string|Closure|null $wrapperClass = null,
+        bool $showToggleButton = true
     ): static {
         $this->masterDetailConfig = new MasterDetailConfig(
             isEnabled: true,
@@ -28,14 +29,15 @@ class Table extends BaseTable
             expandIcon: $expandIcon,
             collapseIcon: $collapseIcon,
             detailWrapperClass: $wrapperClass,
+            showToggleButton: $showToggleButton,
         );
 
         return $this;
     }
 
-    public function masterDetailRelation(string | Closure $relation): static
+    public function masterDetailRelation(string|Closure $relation): static
     {
-        $config = $this->masterDetailConfig ?? new MasterDetailConfig();
+        $config = $this->masterDetailConfig ?? new MasterDetailConfig;
         $config->relation = $relation;
         $config->isEnabled = true;
 
@@ -46,7 +48,7 @@ class Table extends BaseTable
 
     public function masterDetailQuery(Closure $query): static
     {
-        $config = $this->masterDetailConfig ?? new MasterDetailConfig();
+        $config = $this->masterDetailConfig ?? new MasterDetailConfig;
         $config->query = $query;
         $config->isEnabled = true;
 

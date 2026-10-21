@@ -2,6 +2,7 @@
 
 namespace Kapital\Filament\FormComponents\Tables\Concerns;
 
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Kapital\Filament\FormComponents\Resources\Table as ResourceTable;
 use Kapital\Filament\FormComponents\Tables\MasterDetailConfig;
@@ -15,7 +16,7 @@ trait InteractsWithMasterDetailTable
         if (in_array($recordKey, $this->expandedMasterDetailRecords, true)) {
             $this->expandedMasterDetailRecords = array_values(array_filter(
                 $this->expandedMasterDetailRecords,
-                fn(string $key): bool => $key !== $recordKey
+                fn (string $key): bool => $key !== $recordKey
             ));
 
             return;
@@ -42,7 +43,7 @@ trait InteractsWithMasterDetailTable
         }
 
         if (is_string($config->detailKey) && $config->detailKey !== '') {
-            return $config->detailKey . '-' . $record->getKey();
+            return $config->detailKey.'-'.$record->getKey();
         }
 
         return (string) $record->getKey();
@@ -101,6 +102,11 @@ trait InteractsWithMasterDetailTable
         return (string) value($config->detailWrapperClass, $record, $this);
     }
 
+    public function shouldShowMasterDetailToggleButton(): bool
+    {
+        return $this->resolveMasterDetailConfig()?->showToggleButton ?? true;
+    }
+
     public function hasMasterDetailEnabled(): bool
     {
         return (bool) $this->resolveMasterDetailConfig()?->isEnabled;
@@ -148,7 +154,7 @@ trait InteractsWithMasterDetailTable
         return $resourceTable->getMasterDetailConfig();
     }
 
-    protected function makeTable(): \Filament\Tables\Table
+    protected function makeTable(): Table
     {
         $table = parent::makeTable();
 
