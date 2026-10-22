@@ -12,3 +12,5 @@ Bu değişiklik `codex/filament-4` dalında hazırlanır ve `3.x` bakım dalına
 ## Detay tablosu görünümü
 
 `master-detail-index.blade.php`, kurulu Filament 4 tablo görünümünü temel alır ve her kaydın ardından açılır detay satırı ekler. Seçim, sayfalama ve action çizimi Filament 4 yapısını kullanır. Ayrıntılar düğmesi kayıt altındaki satırdadır. Filament güncellemelerinde bu görünüm upstream ile karşılaştırılmalıdır; KB'deki Livewire regresyonu detay açma/kapama ve seçim korumasını doğrular. Eski görünüm yorumları referans dosyasında saklanır.
+
+Kompakt sütunlu görünümde `masterDetailLivewire(..., showToggleButton: false)` kullanılabilir. Bu durumda açma düğmesi uygulamanın kayıt aksiyonları arasında yer alır; kapalı kaydın altında boş ayrıntı satırı üretilmez. Varsayılan `true` mevcut düğmeli davranışı korur.

@@ -2639,14 +2639,18 @@
                                             @php
                                                 $detailRecordKey = $this->getMasterDetailRecordKey($record);
                                             @endphp
+                                            {{-- Satır aksiyonundaki ok kullanıldığında kapalı ayrıntı boş satır üretmez. --}}
+                                            @if ($this->shouldShowMasterDetailToggleButton() || $this->isMasterDetailRecordExpanded($detailRecordKey))
                                             <tr wire:key="{{ $this->getId() }}.detail.{{ $recordKey }}">
                                                 <td colspan="{{ $columnsCount }}">
+                                                    @if ($this->shouldShowMasterDetailToggleButton())
                                                     <x-filament::button size="sm" color="gray"
                                                         :icon="$this->getMasterDetailExpandIcon($record)"
-                                                        wire:click="toggleMasterDetailRecord(@js($detailRecordKey))"
+                                                        wire:click="toggleMasterDetailRecord({{ \Illuminate\Support\Js::from($detailRecordKey) }})"
                                                         :aria-expanded="$this->isMasterDetailRecordExpanded($detailRecordKey) ? 'true' : 'false'">
                                                         Ayrıntılar
                                                     </x-filament::button>
+                                                    @endif
                                                     @if ($this->isMasterDetailRecordExpanded($detailRecordKey))
                                                         <div class="{{ $this->getMasterDetailWrapperClass($record) }}">
                                                             @php
@@ -2660,6 +2664,7 @@
                                                     @endif
                                                 </td>
                                             </tr>
+                                            @endif
                                         @endif
 
                                         @php
