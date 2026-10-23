@@ -5,17 +5,27 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {laravel: '11.*', php: '8.3'}
+          - {laravel: '12.*', php: '8.3'}
+          - {laravel: '12.*', php: '8.5'}
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: ${{ matrix.php }}
           extensions: intl, mbstring, pdo_sqlite, sqlite3, zip, gd
           coverage: none
           tools: composer:v2
       # Filament 3 / Laravel 10 matrisi eski ana sürümün dalında korunur.
       # Laravel 11 güvenlik istisnası yalnız bu çözümleme komutuna aittir.
-      - name: Filament 4 ve Laravel 11 bağımlılıklarını çözümle
-        run: composer update --with 'laravel/framework:^11.28' --no-blocking --prefer-dist --no-interaction --no-progress
-      - name: PHP 8.3 testleri
+      - name: Hedef Laravel bağımlılıklarını çözümle
+        run: |
+          legacy_policy=""
+          if [ "${{ matrix.laravel }}" != "12.*" ]; then legacy_policy="--no-blocking"; fi
+          composer update $legacy_policy --with "laravel/framework:${{ matrix.laravel }}" --prefer-dist --no-interaction --no-progress
+      - name: Paket testleri
         run: php vendor/bin/phpunit
