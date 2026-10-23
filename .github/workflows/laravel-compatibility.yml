@@ -12,6 +12,8 @@ jobs:
           - {laravel: '11.*', php: '8.3'}
           - {laravel: '12.*', php: '8.3'}
           - {laravel: '12.*', php: '8.5'}
+          - {laravel: '13.*', php: '8.4'}
+          - {laravel: '13.*', php: '8.5'}
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -25,7 +27,7 @@ jobs:
       - name: Hedef Laravel bağımlılıklarını çözümle
         run: |
           legacy_policy=""
-          if [ "${{ matrix.laravel }}" != "12.*" ]; then legacy_policy="--no-blocking"; fi
+          if [ "${{ matrix.laravel }}" = "9.*" ] || [ "${{ matrix.laravel }}" = "10.*" ] || [ "${{ matrix.laravel }}" = "11.*" ]; then legacy_policy="--no-blocking"; fi
           composer update $legacy_policy --with "laravel/framework:${{ matrix.laravel }}" --prefer-dist --no-interaction --no-progress
       - name: Paket testleri
         run: php vendor/bin/phpunit
