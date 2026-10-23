@@ -3,7 +3,7 @@
 namespace Kapital\Filament\FormComponents\Components;
 
 use Closure;
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Select as BaseSelect;
 use Illuminate\View\ComponentAttributeBag;
 
@@ -12,30 +12,27 @@ class Select extends BaseSelect
     /**
      * Maximum number of selectable items (for multiple select)
      */
-    protected int | Closure | null $maxSelectable = null;
+    protected int|Closure|null $maxSelectable = null;
 
     /**
      * Minimum number of selectable items (for multiple select)
      */
-    protected int | Closure | null $minSelectable = null;
+    protected int|Closure|null $minSelectable = null;
 
     /**
      * Whether to show "Select All" button
      */
-    protected bool | Closure $hasSelectAllOption = false;
+    protected bool|Closure $hasSelectAllOption = false;
 
     /**
      * Whether to show "Deselect All" button
      */
-    protected bool | Closure $hasDeselectAllOption = false;
+    protected bool|Closure $hasDeselectAllOption = false;
 
     /**
      * Set maximum number of selectable items
-     *
-     * @param int|Closure $count
-     * @return static
      */
-    public function maxSelectable(int | Closure $count): static
+    public function maxSelectable(int|Closure $count): static
     {
         $this->maxSelectable = $count;
 
@@ -44,8 +41,6 @@ class Select extends BaseSelect
 
     /**
      * Get maximum number of selectable items
-     *
-     * @return int|null
      */
     public function getMaxSelectable(): ?int
     {
@@ -54,11 +49,8 @@ class Select extends BaseSelect
 
     /**
      * Set minimum number of selectable items
-     *
-     * @param int|Closure $count
-     * @return static
      */
-    public function minSelectable(int | Closure $count): static
+    public function minSelectable(int|Closure $count): static
     {
         $this->minSelectable = $count;
 
@@ -67,8 +59,6 @@ class Select extends BaseSelect
 
     /**
      * Get minimum number of selectable items
-     *
-     * @return int|null
      */
     public function getMinSelectable(): ?int
     {
@@ -77,11 +67,8 @@ class Select extends BaseSelect
 
     /**
      * Enable "Select All" option button
-     *
-     * @param bool|Closure $condition
-     * @return static
      */
-    public function selectAllOption(bool | Closure $condition = true): static
+    public function selectAllOption(bool|Closure $condition = true): static
     {
         $this->hasSelectAllOption = $condition;
 
@@ -99,13 +86,15 @@ class Select extends BaseSelect
                         // Keep currently selected disabled options
                         $currentlyDisabledValues = collect($currentState)->filter(function ($value) use ($options) {
                             $label = $options[$value] ?? $value;
+
                             return $this->isOptionDisabled($value, $label);
                         });
 
                         // Get all selectable (non-disabled) options
                         $selectableValues = collect($allValues)->filter(function ($value) use ($options) {
                             $label = $options[$value] ?? $value;
-                            return !$this->isOptionDisabled($value, $label);
+
+                            return ! $this->isOptionDisabled($value, $label);
                         });
 
                         // Merge: keep disabled + add all selectable
@@ -121,8 +110,6 @@ class Select extends BaseSelect
 
     /**
      * Check if "Select All" option is enabled
-     *
-     * @return bool
      */
     public function hasSelectAllOption(): bool
     {
@@ -131,11 +118,8 @@ class Select extends BaseSelect
 
     /**
      * Enable "Deselect All" option button
-     *
-     * @param bool|Closure $condition
-     * @return static
      */
-    public function deselectAllOption(bool | Closure $condition = true): static
+    public function deselectAllOption(bool|Closure $condition = true): static
     {
         $this->hasDeselectAllOption = $condition;
 
@@ -153,6 +137,7 @@ class Select extends BaseSelect
                         // Keep only disabled options
                         $disabledValues = collect($currentState)->filter(function ($value) use ($options) {
                             $label = $options[$value] ?? $value;
+
                             return $this->isOptionDisabled($value, $label);
                         })->values()->toArray();
 
@@ -166,8 +151,6 @@ class Select extends BaseSelect
 
     /**
      * Check if "Deselect All" option is enabled
-     *
-     * @return bool
      */
     public function hasDeselectAllOption(): bool
     {
@@ -177,9 +160,6 @@ class Select extends BaseSelect
     /**
      * Transform options for JavaScript (Choices.js)
      * This method fixes the issue where disableOptionWhen doesn't work with multiple select
-     *
-     * @param array $options
-     * @return array
      */
     protected function transformOptionsForJs(array $options): array
     {
@@ -196,8 +176,6 @@ class Select extends BaseSelect
     /**
      * Get validation rules for the component
      * Adds max and min validation rules based on maxSelectable and minSelectable
-     *
-     * @return array
      */
     public function getValidationRules(): array
     {
@@ -221,8 +199,6 @@ class Select extends BaseSelect
 
     /**
      * Get validation attributes for better error messages
-     *
-     * @return array
      */
     public function getValidationAttributes(): array
     {
@@ -244,12 +220,9 @@ class Select extends BaseSelect
         return $attributes;
     }
 
-
     /**
      * Get extra Alpine.js attributes for the component
      * This allows us to pass maxSelectable to Choices.js
-     *
-     * @return ComponentAttributeBag
      */
     public function getExtraAlpineAttributeBag(): ComponentAttributeBag
     {

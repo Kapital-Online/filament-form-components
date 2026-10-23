@@ -1,4 +1,4 @@
-name: Laravel uyumluluğu
+name: Filament 4 uyumluluğu
 on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
@@ -8,18 +8,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        laravel: ['10.*', '11.*']
+        include:
+          - {laravel: '11.*', php: '8.3'}
+          - {laravel: '12.*', php: '8.3'}
+          - {laravel: '12.*', php: '8.5'}
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: ${{ matrix.php }}
           extensions: intl, mbstring, pdo_sqlite, sqlite3, zip, gd
           coverage: none
           tools: composer:v2
-      # Bu matris destek süresi bitmiş Laravel sürümlerinin geriye uyumluluğunu test eder.
-      # İstisna yalnız çözümlemeye aittir; Composer güvenlik bulgularını raporlamaya devam eder.
-      - name: Hedef Laravel sürümünü çözümle
-        run: composer update --with "laravel/framework:${{ matrix.laravel }}" --prefer-dist --no-interaction --no-progress --no-blocking
-      - name: Uyumluluk testlerini çalıştır
-        run: composer test
+      # Filament 3 / Laravel 10 matrisi eski ana sürümün dalında korunur.
+      # Laravel 11 güvenlik istisnası yalnız bu çözümleme komutuna aittir.
+      - name: Hedef Laravel bağımlılıklarını çözümle
+        run: |
+          legacy_policy=""
+          if [ "${{ matrix.laravel }}" != "12.*" ]; then legacy_policy="--no-blocking"; fi
+          composer update $legacy_policy --with "laravel/framework:${{ matrix.laravel }}" --prefer-dist --no-interaction --no-progress
+      - name: Paket testleri
+        run: php vendor/bin/phpunit
